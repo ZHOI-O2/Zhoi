@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+node_modules/
+manifest.json
+_verify/
+_label_stage/
