@@ -26,9 +26,9 @@
   const raw = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
   if (!raw) {
     throw new Error(
-      `[auth] ${STORAGE_KEY} 가 없습니다.\n` +
-      `       label.o2veluto.com 에 로그인된 탭에서 실행하세요. ` +
-      `(다른 오리진/시크릿창에서는 안 됩니다)`
+      '라벨에디터에 로그인이 되어 있지 않습니다.\n' +
+      '       label.o2veluto.com 에서 로그인을 먼저 하신 뒤,\n' +
+      '       그 화면에서 다시 붙여넣어 주세요. (시크릿창에서는 안 됩니다)'
     );
   }
 
@@ -39,7 +39,7 @@
   if (sess && sess.currentSession) sess = sess.currentSession;
 
   const TOKEN = sess?.access_token;
-  if (!TOKEN) throw new Error('[auth] access_token 을 찾지 못했습니다. 재로그인 후 다시 시도하세요.');
+  if (!TOKEN) throw new Error('로그인 정보를 읽지 못했습니다. 라벨에디터에서 로그아웃 후 다시 로그인해 주세요.');
 
   const payload = jwtPayload(TOKEN);
   const UID   = sess?.user?.id   ?? payload.sub;
@@ -48,7 +48,7 @@
   const minsLeft  = Math.round((expiresAt - Date.now()) / 60000);
 
   if (minsLeft <= 0) {
-    throw new Error(`[auth] 토큰이 이미 만료되었습니다 (${expiresAt.toLocaleString()}). 페이지를 새로고침하세요.`);
+    throw new Error(`로그인이 만료되었습니다 (${expiresAt.toLocaleString()}). 라벨에디터 화면을 새로고침한 뒤 다시 해주세요.`);
   }
 
   /* ---- 2) anon(publishable) key — 번들 스크립트에서 추출 -------------------- */
